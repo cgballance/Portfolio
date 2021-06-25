@@ -1,0 +1,42 @@
+@import "../../node_modules/@ag-grid-community/all-modules/dist/styles/ag-grid.scss";
+@import "../../node_modules/@ag-grid-community/all-modules/dist/styles/ag-theme-alpine/sass/ag-theme-alpine.scss";
+
+.ag-row .ag-cell {
+  font-size: 12px !important;
+}
+//  text-align: left;
+//  display: flex;
+//  justify-content: left;
+//  align-items: center;
+//}
+
+.ag-header-cell-label {
+  font-size: 12px !important;
+}
+
+.title {
+    grid-area: header;
+    letter-spacing: 40px;
+    text-align: center;
+    vertical-align: top;
+    width:80%;
+    display:inline-block;
+    margin-top: 4px;
+    font-size: 14pt;
+    font-weight:bold ;
+    color:  rgb(2, 77, 2);
+  }
+
+
+.loco-logo {
+  margin-top: 8px;
+  //padding-top: 4px;
+}
+
+.expanded-toolbar {
+    background-image: linear-gradient(to right, rgb(252, 174, 29) , yellow, green);
+  }
+
+mat-icon {
+  width: 200px !important;
+}

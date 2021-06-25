@@ -1,0 +1,142 @@
+<html>
+  <head>
+    <head>
+      <link rel="stylesheet" href="index.css">
+      </head>
+  </head>
+<body style="background-color:rgb(250, 203, 48)">
+
+<script src="d3-hierarchy/dist/d3-hierarchy.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-selection@2"></script>
+
+<div class=container>
+  <div class=title><img src="edward-jones.svg" style="height:30px;"/>&nbsp;&nbsp;Financial&nbsp;Alchemy</div>
+  <div class="treemap" id="my_dataviz"></div>
+  <div class="investable">this is where the etf/mf/stock chooser goes</div>
+  <div class="holdings">this is where the holdings goes</div>
+  <div class="footer"><center>this is where the footer goes</center></div>
+</div>
+
+<script>
+  async function getJson(url) {
+    let response = await fetch( url, {
+	    headers: {
+		    Accept: 'application/json'
+	    },
+	    method: 'GET',
+	    mode: 'cors'
+    }) ;
+    let data = await response.json() ;
+
+    return data;
+}
+
+var sp500url = "https://datahub.io/core/s-and-p-500-companies-financials/r/1.json" ;
+getJson( sp500url ).then( data => {
+  var sp500data = data ;
+  var total = 0.0;
+  data.forEach( stock => total += stock['Market Cap'] ) ;
+  
+  //
+  // make a tree.  need to add a root and child level to tie things together.
+  //
+  sp500data.push( { Symbol: "SP500", Sector: ""} ) ;
+  sp500data.push( { Symbol: "Industrials", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Health Care", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Materials", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Financials", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Consumer Discretionary", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Energy", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Consumer Staples", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Utilities", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Information Technology", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Real Estate", Sector: "SP500" } ) ;
+  sp500data.push( { Symbol: "Telecommunication Services", Sector: "SP500"} ) ;
+
+  console.log( sp500data ) ;
+
+const stratify = d3.stratify()
+  .id( function(d) { return d.Symbol; } )
+  .parentId( function(d) { return d.Sector; } ) ;
+
+var root = stratify(sp500data).sum( d => +d['Market Cap'] ) ;
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 10, bottom: 10, left: 10},
+  width = 1024 - margin.left - margin.right,
+  height = 768 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+console.log( "put an svg at my_dataviz" ) ;
+var svg = d3.select("#my_dataviz").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+console.log( "ROOT " + root ) ;
+
+d3.treemap()
+  .size([width, height])
+  .padding(4)
+  (root)
+
+svg
+  .selectAll("rect")
+  //.data(root.leaves())
+  .data(root.children)
+  .enter()
+  .append("rect")
+    .attr('x', function (d) { return d.x0; })
+    .attr('y', function (d) { return d.y0; })
+    .attr('width', function (d) { return d.x1 - d.x0; })
+    .attr('height', function (d) { return d.y1 - d.y0; })
+    .style("stroke", "black")
+    .style("fill", function(d) {
+      //
+      // color is a gradient from red -> green based on
+      // (marketcap t1 and t0) / marketcap (pct change)
+      //
+      return "#30CF30";
+    });
+
+// and to add the text labels
+svg
+  .selectAll("text")
+  //.data(root.leaves())
+  .data(root.children)
+  .enter()
+  .append("text")
+    .attr("x", function(d){ return d.x0+10})    // +10 to adjust position (more right)
+    .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
+    .text(function(d) {
+      var sz = ( d.value / total ) * 100 ;
+      return d.data.Symbol + ' - ' + sz.toFixed(2) + '%' })
+    .attr("fill", "black") ;
+
+svg
+  .selectAll("foobar")
+  //.data(root.leaves())
+  .data(root.children)
+  .enter()
+  .append("circle")
+    .attr("cx", function(d) { return d.x0 + (d.x1 - d.x0)/2 } )
+    .attr("cy", function(d) { return d.y0 + (d.y1 - d.y0)/2 } )
+    .attr( "r", function(d) {
+        // min/max is 3,15
+        // apply a linear scale.
+        var sz = ( d.value / total ) * 100 ;
+        console.log( "pct is " + sz ) ;
+
+        return sz;
+      } )
+    .style( "stroke-width", 1 )
+    .style("stroke", "black")
+    .style("fill", "#b3a269") ;
+
+} ) ;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<div class=container>
+	<div class=title></div>
+	<div class="treemap" id="treemapholder">
+		<fieldset style="width:125px; height:28px; float: left; padding-right:5px;">
+			<legend>Now Viewing</legend><span id="nowViewing" style="width: 100%; float:right; text-align: center;"></span>
+		</fieldset>
+		<fieldset id="timegroup" style="width: 300px; height:28px; float: right; padding-right:10px;"><legend>Time Horizon</legend>
+			<mat-radio-group aria-label="Time Horizon" style="padding: 1px;" [(ngModel)]="timeHorizon" (ngModelChange)="horizonChanged($event)">
+				<mat-radio-button value="day" style="padding: 1px;">Today</mat-radio-button>
+				<mat-radio-button value="month" style="padding: 1px;">Month</mat-radio-button>
+				<mat-radio-button value="qtr" style="padding: 1px;">Quarter</mat-radio-button>
+				<mat-radio-button value="ytd" style="padding: 1px;">YTD</mat-radio-button>
+				<mat-radio-button value="year" style="padding: 1px;">52wk</mat-radio-button>
+			</mat-radio-group>
+		</fieldset>
+		<div id="my_dataviz"></div>
+	</div>
+	<div class="investable"> 
+		<app-mutualfundchooser></app-mutualfundchooser>
+		<app-etfchooser></app-etfchooser>
+		<app-stockchooser></app-stockchooser>
+	</div>
+	<div class="holdings">
+		<app-portfolio></app-portfolio>
+		<app-constituents></app-constituents>
+	</div>
+	<div class="footer"></div>
+  </div>

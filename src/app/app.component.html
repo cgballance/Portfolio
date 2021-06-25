@@ -1,0 +1,21 @@
+<mat-toolbar class="expanded-toolbar" style="height: 36px;">
+    <span style="width:100%;">
+        <mat-icon class="loco-logo" svgIcon="company_logo"></mat-icon>
+        <div class="title">{{title}}</div>
+    </span>
+</mat-toolbar>
+<mat-tab-group>
+    <mat-tab label="Equities">
+        <app-equities></app-equities>
+    </mat-tab>
+    <mat-tab label="Bonds">
+        <!--
+        <app-bonds></app-bonds>
+        -->
+    </mat-tab>
+    <mat-tab label="Commodities/Currencies">
+        <!--
+            <app-cc></app-cc>
+        -->
+    </mat-tab>
+</mat-tab-group>

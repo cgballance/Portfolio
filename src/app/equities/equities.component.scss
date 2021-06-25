@@ -1,0 +1,46 @@
+
+section {
+  display: table;
+}
+
+.form-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.form-button-row .mat-button-base {
+  margin: 6px 6px 6px 0;
+}
+
+.button-expander {
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.treemap {
+  grid-area: treemap;
+  vertical-align: bottom;
+  font-size: 8pt;
+  font-weight: bold;
+}
+.holdings {
+  grid-area: looker;
+}
+.footer {
+  grid-area: footer;
+}
+.investable {
+  grid-area: picker;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 20% 20% 60%;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "header header header"
+    "picker looker treemap"
+    "footer footer footer ";
+}

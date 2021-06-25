@@ -1,0 +1,33 @@
+
+section {
+  display: table;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 3px 0px 3px 0px;
+}
+
+li {
+  list-style-type: none;
+  margin: 0;
+  padding: 4px 0px 4px 0px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+legend {
+  font-size: 10px;
+  font-weight:bold;
+}
+
+fieldset {
+  font-size: 10px;
+  border-radius: 5px;
+}
+  
